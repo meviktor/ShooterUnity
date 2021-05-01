@@ -115,7 +115,7 @@ public class EnemyController : GameCharacterControllerBase
         }
         if(collision.gameObject == _player && EnemyIsNotZombie())
         {
-            if (_actionTimer.CanDoAction() && _actionTimer.TryDoAction(_player.GetComponent<PlayerController>().DecreaseHealth))
+            if (_actionTimer.CanDoAction() && _actionTimer.TryDoAction(() => _player.GetComponent<PlayerController>().DecreaseHealth()))
             {
                Debug.Log("Player's health is decreased by 1.");
             }
@@ -134,7 +134,7 @@ public class EnemyController : GameCharacterControllerBase
     }
 
     private bool WalkPathEnded() => Vector3.Distance(_spawnPosition.Value, transform.position) > walkDistance;
-    private bool PlayerIsNearby() => Vector3.Distance(transform.position, _player.transform.position) <= playerScanRadius;
+    private bool PlayerIsNearby() => (_player?.activeSelf ?? false) ? Vector3.Distance(transform.position, _player.transform.position) <= playerScanRadius : false;
     private bool ObjectBetweenEnemyAndPlayer()
     {
         var playerTargetPosition = new Vector3(_player.transform.position.x, 0.5f, _player.transform.position.z);
@@ -199,5 +199,14 @@ public class ActionTimer
             _elapsedTimeInSec = 0;
         }
         return result;
+    }
+
+    public void TryDoAction(Action action)
+    {
+        if (CanDoAction())
+        {
+            action();
+            _elapsedTimeInSec = 0;
+        }
     }
 }

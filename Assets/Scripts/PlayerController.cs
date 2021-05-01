@@ -2,8 +2,21 @@ using UnityEngine;
 
 public class PlayerController : GameCharacterControllerBase
 {
+    public bool KeyFound
+    {
+        get { return _keyFound; }
+        set
+        {
+            if(_keyFound == false)
+            {
+                _keyFound = value;
+            }
+        }
+    }
+
     private int _ammo;
     private Vector3 _inputVector;
+    private bool _keyFound;
 
     protected override Vector3 BulletSpawnOffset => new Vector3(0.3f, 0.8f, 0.75f);
     protected override string UnderlyingPrefabName => "TT_demo_police";
@@ -12,6 +25,7 @@ public class PlayerController : GameCharacterControllerBase
     {
         base.Init();
         _ammo = 0;
+        _keyFound = false;
     }
 
     protected override void DoWhileAlive()
@@ -60,11 +74,15 @@ public class PlayerController : GameCharacterControllerBase
     private bool AmmoLeft() => _ammo > 0;
     public void AddAmmo(int bulletCount) => _ammo += bulletCount;
 
-    public bool IncreaseHealth()
+    public bool IncreaseHealth(int unit = 1)
     {
         if (!HasFullHealh())
         {
-            _health++;
+            if ((int)strength < _health + unit)
+            {
+                _health = (int)strength;
+            }
+            else _health += unit;
             return true;
         }
         return false;

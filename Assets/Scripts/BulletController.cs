@@ -34,7 +34,7 @@ public class BulletController : MonoBehaviour
             IGameCharacterControllerBase gameCharacterController = enemyCharacterTag switch
             {
                 "Player" => other.gameObject.GetComponent<PlayerController>(),
-                "Enemy"  => other.gameObject.GetComponent<EnemyController>(),
+                "Enemy"  => (IGameCharacterControllerBase)other.gameObject.GetComponent<EnemyController>() ?? other.gameObject.GetComponent<EnemyBossController>(),
                 _ => throw new ArgumentException($"Unknown type of character ({enemyCharacterTag}), cannot handle bullet collision!", nameof(enemyCharacterTag)),
             };
 

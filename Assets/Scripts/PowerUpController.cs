@@ -1,17 +1,24 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PowerUpController : MonoBehaviour
 {
     public PowerUpType powerUpType;
+    /// <summary>
+    /// For ammo means the number of bullets, for medkit means the health unit recoverd
+    /// </summary>
+    public int power;
 
+    private GameObject _player;
     private PlayerController _playerController;
     // TODO: think about making this variable configurable (public)!
-    private const int AMMO_BULLET_COUNT = 25;
+    
 
     private void Start()
     {
-        _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        _player = GameObject.Find("Player");
+        _playerController =_player.GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -19,55 +26,89 @@ public class PowerUpController : MonoBehaviour
         switch (powerUpType)
         {
             case PowerUpType.MedKit:
-                AnimateMedKit();
+                AnimateMedKit(Time.deltaTime);
                 break;
             case PowerUpType.Ammo:
-                AnimateAmmo();
+                AnimateAmmo(Time.deltaTime);
+                break;
+            case PowerUpType.Key:
+                AnimateKey(Time.deltaTime);
                 break;
             default:
                 throw new Exception($"Unkwon type of power-up (value: '{powerUpType}')! No animation set!");
         }
     }
 
-    // TODO: if an enemy "picked up" the power-up pls ignore!!!
     private void OnTriggerEnter(Collider other)
     {
-        bool pickedUp = true;
-
-        switch (powerUpType)
+        if(other.gameObject == _player)
         {
-            case PowerUpType.MedKit:
-                pickedUp = HandleMedKitPickUp();
-                break;
-            case PowerUpType.Ammo:
-                HandleAmmoPickUp();
-                break;
-            default:
-                throw new Exception($"Unkwon type of power-up (value: '{powerUpType}')! Collison not handled!");
-        }
+            bool pickedUp = true;
 
-        if (pickedUp)
+            switch (powerUpType)
+            {
+                case PowerUpType.MedKit:
+                    pickedUp = HandleMedKitPickUp();
+                    break;
+                case PowerUpType.Ammo:
+                    HandleAmmoPickUp();
+                    break;
+                case PowerUpType.Key:
+                    HandleKeyPickUp();
+                    break;
+                default:
+                    throw new Exception($"Unkwon type of power-up (value: '{powerUpType}')! Collison not handled!");
+            }
+
+            if (pickedUp)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void AnimatePowerUp(float animateLoopIsSec, float deltaTime)
+    {
+        var rotationDegree = (deltaTime / animateLoopIsSec) * 360.0f;
+        switch(GetRotationAxis())
         {
-            Destroy(gameObject);
-        }
+            case Axis.X:
+                gameObject.transform.Rotate(rotationDegree, 0f, 0f);
+                break;
+            case Axis.Y: 
+                gameObject.transform.Rotate(0f, rotationDegree, 0f);
+                break;
+            case Axis.Z:
+                gameObject.transform.Rotate(0f, 0f, rotationDegree);
+                break;
+            case Axis.None:
+                break;
+        };
     }
 
-    private void AnimateMedKit()
+    private void AnimateMedKit(float deltaTime) => AnimatePowerUp(10f, deltaTime);
+
+    private void AnimateAmmo(float deltaTime) => AnimatePowerUp(6f, deltaTime);
+
+    private void AnimateKey(float deltaTime) => AnimatePowerUp(12f, deltaTime);
+
+    private bool HandleMedKitPickUp() => _playerController.IncreaseHealth(power);
+    private void HandleAmmoPickUp() => _playerController.AddAmmo(power);
+    private void HandleKeyPickUp() => _player.GetComponent<PlayerController>().KeyFound = true;
+
+    private Axis GetRotationAxis() => powerUpType switch
     {
-        // TODO: add animation
-    }
-
-    private void AnimateAmmo()
-    {
-        // TODO: add animation
-    }
-
-    private bool HandleMedKitPickUp() => _playerController.IncreaseHealth();
-    private void HandleAmmoPickUp() => _playerController.AddAmmo(AMMO_BULLET_COUNT);
+        PowerUpType.MedKit => Axis.Y,
+        PowerUpType.Key => Axis.Y,
+        PowerUpType.Ammo => Axis.Z,
+        _ => throw new Exception($"Unkwon type of power-up (value: '{powerUpType}')! Cannot get axis for animation!")
+    };
+        
 }
 
 public enum PowerUpType
 {
     MedKit = 1,
-    Ammo = 2
-}
+    Ammo = 2,
+    Key = 3
+}   

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IGameCharacterControllerBase
 {
-    bool DecreaseHealth();
+    bool DecreaseHealth(int unit = 1);
 }
 
 public abstract class GameCharacterControllerBase : MonoBehaviour, IGameCharacterControllerBase
@@ -11,7 +11,7 @@ public abstract class GameCharacterControllerBase : MonoBehaviour, IGameCharacte
     public float moveSpeed;
     public CharacterStrength strength;
     public GameObject bullet;
-    public int _health;
+    public int Health { get { return _health; } }
 
     /// <summary>
     /// The prefab from TonnyTinyPeople package (policeman, zombie, female, male).
@@ -22,6 +22,7 @@ public abstract class GameCharacterControllerBase : MonoBehaviour, IGameCharacte
     /// The Rigidbody belongs to the actual character (player or enemy).
     /// </summary>
     protected Rigidbody _rigidbody;
+    protected int _health;
 
     private bool _initHappend = false;
 
@@ -112,22 +113,30 @@ public abstract class GameCharacterControllerBase : MonoBehaviour, IGameCharacte
         }
     }
 
-    protected void Die()
+    protected virtual void Die()
     {
         _rigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
 
         _animator.SetBool("b_isDead", true);
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
-            gameObject.SetActive(false);
+            if (gameObject.tag == "Enemy")
+            {
+                Destroy(gameObject);
+            }
+            else gameObject.SetActive(false);
         }
     }
 
-    public bool DecreaseHealth()
+    public bool DecreaseHealth(int unit = 1)
     {
         if (!IsDead())
         {
-            _health--;
+            if (_health >= unit)
+            {
+                _health -= unit;
+            }
+            else _health -= 0;
             return true;
         }
         return false;
@@ -140,7 +149,8 @@ public enum CharacterStrength
 {
     Weak = 3,
     Normal = 5,
-    Strong = 7
+    Strong = 7,
+    Boss = 15
 }
 
 public enum BulletType
