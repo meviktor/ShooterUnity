@@ -94,7 +94,7 @@ public class PowerUpController : MonoBehaviour
 
     private bool HandleMedKitPickUp() => _playerController.IncreaseHealth(power);
     private void HandleAmmoPickUp() => _playerController.AddAmmo(power);
-    private void HandleKeyPickUp() => _player.GetComponent<PlayerController>().KeyFound = true;
+    private void HandleKeyPickUp() => _player.GetComponent<PlayerController>().HasKey = true;
 
     private Axis GetRotationAxis() => powerUpType switch
     {

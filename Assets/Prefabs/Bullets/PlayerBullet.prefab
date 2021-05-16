@@ -110,3 +110,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   bulletType: 1
+  playerBulletLifeTime: 1.5
+  enemyBulletLifeTime: 3

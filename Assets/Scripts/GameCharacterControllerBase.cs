@@ -128,7 +128,7 @@ public abstract class GameCharacterControllerBase : MonoBehaviour, IGameCharacte
         }
     }
 
-    public bool DecreaseHealth(int unit = 1)
+    public virtual bool DecreaseHealth(int unit = 1)
     {
         if (!IsDead())
         {

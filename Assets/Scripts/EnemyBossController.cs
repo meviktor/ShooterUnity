@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class EnemyBossController : GameCharacterControllerBase
 {
+    public event EventHandler BossDefeated;
+
     public GameObject[] enemiesToSpawn;
     /// <summary>
     /// These positions are calculated from the position of the boss.
@@ -21,7 +24,7 @@ public class EnemyBossController : GameCharacterControllerBase
     private ActionTimer _enemySpawnActionTimer;
 
     // TODO: do something with this!
-    protected override Vector3 BulletSpawnOffset => throw new System.NotImplementedException();
+    protected override Vector3 BulletSpawnOffset => throw new NotImplementedException();
 
     protected override string UnderlyingPrefabName => "TT_demo_male_B";
 
@@ -38,9 +41,7 @@ public class EnemyBossController : GameCharacterControllerBase
         _shootActionTimer = new ActionTimer(shootInterval);
         _enemySpawnActionTimer = new ActionTimer(enemySpawnInterval);
 
-        // To be able to shhot and spwan enemies right after creation
-        _shootActionTimer.AddElapsedTime(shootInterval);
-        _enemySpawnActionTimer.AddElapsedTime(enemySpawnInterval);
+        DoWhenSpawn();
     }
 
     protected override void DoWhenDying()
@@ -66,14 +67,23 @@ public class EnemyBossController : GameCharacterControllerBase
             var enemyController = enemy.GetComponent<EnemyController>();
             enemyController.DecreaseHealth(enemyController.Health);
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+
+        OnBossDefeated(EventArgs.Empty);
+    }
+
+    private void DoWhenSpawn()
+    {
+        // To be able to shhot and spwan enemies right after creation
+        _shootActionTimer.AddElapsedTime(shootInterval);
+        _enemySpawnActionTimer.AddElapsedTime(enemySpawnInterval);
     }
 
     public void SpawnEnemies(int enemyCount)
     {
         for (int i = 0; i < enemyCount; i++)
         {
-            int enemyIndex = Random.Range(0, enemiesToSpawn.Length);
+            int enemyIndex = UnityEngine.Random.Range(0, enemiesToSpawn.Length);
             Instantiate(enemiesToSpawn[enemyIndex], transform.position + possibleSpawnPositions[i], transform.rotation);
         }
     }
@@ -101,4 +111,6 @@ public class EnemyBossController : GameCharacterControllerBase
     protected override void OnTriggerEnterImpl(Collider other)
     {
     }
+
+    protected void OnBossDefeated(EventArgs e) => BossDefeated?.Invoke(this, e);
 }

@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : GameCharacterControllerBase
 {
-    public bool KeyFound
+    public event EventHandler KeyFound;
+    public event EventHandler AmmoAmountChanged;
+    public event EventHandler HealthChanged;
+
+    public bool HasKey
     {
         get { return _keyFound; }
         set
@@ -10,9 +15,12 @@ public class PlayerController : GameCharacterControllerBase
             if(_keyFound == false)
             {
                 _keyFound = value;
+                OnKeyFound(EventArgs.Empty);
             }
         }
     }
+
+    public int Ammo { get { return _ammo; } }
 
     private int _ammo;
     private Vector3 _inputVector;
@@ -68,11 +76,17 @@ public class PlayerController : GameCharacterControllerBase
         {
             Instantiate(bullet, transform.position + BulletSpawnOffset, transform.rotation);
             _ammo--;
+
+            OnAmmoAmountChanged(EventArgs.Empty);
         }
     }
 
     private bool AmmoLeft() => _ammo > 0;
-    public void AddAmmo(int bulletCount) => _ammo += bulletCount;
+    public void AddAmmo(int bulletCount)
+    {
+        _ammo += bulletCount;
+        OnAmmoAmountChanged(EventArgs.Empty);
+    }
 
     public bool IncreaseHealth(int unit = 1)
     {
@@ -83,10 +97,21 @@ public class PlayerController : GameCharacterControllerBase
                 _health = (int)strength;
             }
             else _health += unit;
+
+            OnHealthChanged(EventArgs.Empty);
+
             return true;
         }
         return false;
     }
+
+    public override bool DecreaseHealth(int unit = 1)
+    {
+        var res = base.DecreaseHealth(unit);
+        OnHealthChanged(EventArgs.Empty);
+        return res;
+    }
+
     private bool HasFullHealh() => _health == (int)strength;
 
     protected override void OnTriggerEnterImpl(Collider other)
@@ -96,4 +121,10 @@ public class PlayerController : GameCharacterControllerBase
     protected override void OnCollisionEnterImpl(Collision collision)
     {
     }
+
+    protected void OnKeyFound(EventArgs e) => KeyFound?.Invoke(this, e);
+
+    protected void OnAmmoAmountChanged(EventArgs e) => AmmoAmountChanged?.Invoke(this, e);
+
+    protected void OnHealthChanged(EventArgs e) => HealthChanged?.Invoke(this, e);
 }

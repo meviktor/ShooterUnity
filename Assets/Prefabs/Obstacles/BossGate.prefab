@@ -1,5 +1,106 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2489803865410090508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2811774367092565726}
+  - component: {fileID: 8277274360326911541}
+  - component: {fileID: 3883193039066945026}
+  m_Layer: 0
+  m_Name: LockTrigger
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2811774367092565726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2489803865410090508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9180249223825764777}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8277274360326911541
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2489803865410090508}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9912403, y: 2.1973476, z: 0.04256001}
+  m_Center: {x: 0.0031660795, y: 1.0946517, z: 0.023761615}
+--- !u!114 &3883193039066945026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2489803865410090508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7326159aa916d744da61c09e0f5c7cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5153702853981899896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5936768703484387483}
+  - component: {fileID: 2356859845176138516}
+  m_Layer: 0
+  m_Name: TriggeredLock
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5936768703484387483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5153702853981899896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9180249223825764777}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2356859845176138516
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5153702853981899896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.044728, y: 2.3291173, z: 0.040762007}
+  m_Center: {x: 0.06877363, y: 1.2100525, z: -0.20856836}
 --- !u!1 &9182102557240057039
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,9 +113,10 @@ GameObject:
   - component: {fileID: 9156330767421792005}
   - component: {fileID: 9167119654652754619}
   - component: {fileID: 9187422887724433557}
+  - component: {fileID: 3000428578898877169}
   m_Layer: 0
-  m_Name: Gate
-  m_TagString: Untagged
+  m_Name: GateRight
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,7 +128,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9182102557240057039}
-  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.9740956, y: 0, z: 0.2259052}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -95,6 +197,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9796563, y: 2.2144132, z: 0.094311684}
   m_Center: {x: -0.47379813, y: 1.1072061, z: -0.0000018887222}
+--- !u!114 &3000428578898877169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9182102557240057039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3302bef3fe188b49ba3b304579c8c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9182126341784479985
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,9 +221,10 @@ GameObject:
   - component: {fileID: 9159858667967627547}
   - component: {fileID: 9168032649228582857}
   - component: {fileID: 9187898506101030877}
+  - component: {fileID: 7410156299287497984}
   m_Layer: 0
-  m_Name: Gate 1
-  m_TagString: Untagged
+  m_Name: GateLeft
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +236,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9182126341784479985}
-  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.00000009976814, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.9740956, y: 0, z: 0.2259048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -190,6 +305,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9796563, y: 2.2144132, z: 0.094311684}
   m_Center: {x: 0.47379813, y: 1.1072061, z: -0.0000016465783}
+--- !u!114 &7410156299287497984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9182126341784479985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3302bef3fe188b49ba3b304579c8c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9182560390329640481
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9180249223825764777}
+  - component: {fileID: 6796836762820848187}
   m_Layer: 0
   m_Name: BossGate
   m_TagString: Obstacle
@@ -214,15 +342,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9182560390329640481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.6, y: 0.25, z: 55.31822}
-  m_LocalScale: {x: 3.0040052, y: 3.0040052, z: 3.0040052}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.9136, y: 2.9136, z: 2.9136}
   m_Children:
   - {fileID: 9180382066744556027}
   - {fileID: 9180289788491007563}
   - {fileID: 9180078891269651309}
+  - {fileID: 5936768703484387483}
+  - {fileID: 2811774367092565726}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6796836762820848187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9182560390329640481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664d71bf830ea894f9fe91080379a59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9182579221614706647
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,8 +378,8 @@ GameObject:
   - component: {fileID: 9168153692791252173}
   - component: {fileID: 9190206202616049261}
   m_Layer: 0
-  m_Name: Gate_1_1
-  m_TagString: Untagged
+  m_Name: GateColumns
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

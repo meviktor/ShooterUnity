@@ -7,9 +7,19 @@ public class BulletController : MonoBehaviour
     public float bulletSpeed;
     public BulletType bulletType;
 
+    private float _playerBulletLifeTime = 1.5f;
+    private float _enemyBulletLifeTime = 3.0f;
+    private float _lifeTimeCounter = 0.0f;
+
     private void Update()
     {
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+        _lifeTimeCounter += Time.deltaTime;
+
+        if(_lifeTimeCounter > (bulletType == BulletType.Enemy ? _enemyBulletLifeTime : _playerBulletLifeTime))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,7 +54,9 @@ public class BulletController : MonoBehaviour
             }
         }
 
-        if(new string[] {enemyCharacterTag, "Building", "Obstacle"}.Contains(other.gameObject.tag))
+        var parentGameObj = other.gameObject.transform.parent?.gameObject;
+
+        if (new string[] { other.gameObject.tag, parentGameObj?.tag ?? string.Empty }.Any(tag => new string[] { enemyCharacterTag, "Building", "Obstacle" }.Contains(tag)))
         {
             Destroy(gameObject);
         }
