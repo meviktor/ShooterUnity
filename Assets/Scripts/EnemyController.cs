@@ -179,6 +179,7 @@ public enum EnemyType
     Zombie = 3
 }
 
+// TODO: this could be replaced with StartCoroutine and a boolean variable
 public class ActionTimer
 {
     private float _elapsedTimeInSec;
